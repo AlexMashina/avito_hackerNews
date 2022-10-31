@@ -1,0 +1,29 @@
+.news {
+  font-size: 20px;
+  &:not(:last-child) {
+    border-bottom: 2px solid #ff9933;
+  }
+
+  &__item {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    padding: 5px;
+
+    &:hover {
+      color: #ff9933;
+    }
+  }
+
+  &__item-title {
+    margin: 0 0 3px;
+    line-height: 1;
+    font-size: 24px;
+  }
+
+  &__item-info {
+    margin: 0;
+    font-size: 14px;
+    color: gray;
+  }
+}

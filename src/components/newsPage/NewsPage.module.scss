@@ -1,0 +1,51 @@
+.story {
+  padding: 40px 0 60px;
+
+  &__title {
+    margin-top: 0;
+  }
+
+  &__text {
+    background-color: rgba(163, 163, 163, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 40px;
+
+    & > p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__link {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffaa55;
+    text-decoration: none;
+    text-align: center;
+    padding: 8px;
+    color: #000000;
+  }
+
+  &__comments {
+    list-style: none;
+    margin-top: 0;
+    background-color: rgba(163, 163, 163, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  &__comments-wrapper {
+    display: flex;
+  }
+
+  &__comments-refresh {
+    background-color: #ffaa55;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+}
