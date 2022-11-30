@@ -3,16 +3,15 @@ import React, { FC } from "react";
 import styles from "./NewsList.module.scss";
 import { Container } from "../container/Container";
 import { News } from "../news/News";
-import { INews } from "../../models/news";
 import { useAppDispatch } from "../../hooks/hooks";
 import { fetchNews } from "../../store/actions/news";
 import { cleanNews } from "../../store/slices/newsSlice";
 
 interface NewsListProps {
-  news: INews[];
+  newsId: number[];
 }
 
-export const NewsList: FC<NewsListProps> = ({ news }) => {
+export const NewsList: FC<NewsListProps> = ({ newsId }) => {
   const dispatch = useAppDispatch();
 
   const onRefreshList = () => {
@@ -24,7 +23,8 @@ export const NewsList: FC<NewsListProps> = ({ news }) => {
       <Container>
         <h1 className={styles.newsList__title}>100 latest news</h1>
         <ul className={styles.newsList__list}>
-          {news && news.map((story) => <News story={story} key={story.id} />)}
+          {newsId &&
+            newsId.map((storyId) => <News storyId={storyId} key={storyId} />)}
         </ul>
         <button
           className={styles.newsList__refresh}

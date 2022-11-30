@@ -5,11 +5,13 @@ import { IComment } from "../../models/comment";
 interface ActiveStorySlice {
   story: INews;
   comments: IComment[];
+  isCommentsLoading: boolean;
 }
 
 const initialState: ActiveStorySlice = {
   story: {} as INews,
   comments: [],
+  isCommentsLoading: false,
 };
 
 const activeStorySlice = createSlice({
@@ -25,10 +27,17 @@ const activeStorySlice = createSlice({
     cleanComments(state) {
       state.comments = [];
     },
+    setCommentsLoading(state) {
+      state.isCommentsLoading = !state.isCommentsLoading;
+    },
   },
 });
 
-export const { setActiveStory, setComments, cleanComments } =
-  activeStorySlice.actions;
+export const {
+  setActiveStory,
+  setComments,
+  cleanComments,
+  setCommentsLoading,
+} = activeStorySlice.actions;
 
 export default activeStorySlice.reducer;

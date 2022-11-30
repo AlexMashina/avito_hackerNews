@@ -1,4 +1,4 @@
-import React, { FC, memo } from "react";
+import React, { FC, memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./News.module.scss";
@@ -7,20 +7,47 @@ import { useAppDispatch } from "../../hooks/hooks";
 import { setActiveStory } from "../../store/slices/activeStorySlice";
 
 interface NewsProps {
-  story: INews;
+  storyId: number;
 }
 
-export const News: FC<NewsProps> = memo(({ story }) => {
-  const dispatch = useAppDispatch();
+export const News: FC<NewsProps> = memo(({ storyId }) => {
+  const [story, setStoryInfo] = useState<INews>({} as INews);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const timeCreatedStory = new Date(story.time * 1000).toLocaleString("ru");
+  const dispatch = useAppDispatch();
 
   const onStory = () => {
     dispatch(setActiveStory(story));
   };
 
+  const fetchStoryById = async () => {
+    try {
+      setIsLoading(true);
+      await fetch(
+        `https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty`
+      )
+        .then((resp) => resp.json())
+        .then((data) => setStoryInfo(data));
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    try {
+      fetchStoryById();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   if (story?.url) {
-    return (
+    return isLoading ? (
+      <li className={styles.news}>
+        <p>Loading...</p>
+      </li>
+    ) : (
       <li className={styles.news}>
         <a
           className={styles.news__item}
@@ -30,18 +57,26 @@ export const News: FC<NewsProps> = memo(({ story }) => {
         >
           <p className={styles["news__item-title"]}>{story.title}</p>
           <p className={styles["news__item-info"]}>
-            {`autor: ${story.by} | rating: ${story.score} | date: ${timeCreatedStory}`}
+            {`autor: ${story.by} | rating: ${story.score} | date: ${new Date(
+              story.time * 1000
+            ).toLocaleString("ru")}`}
           </p>
         </a>
       </li>
     );
   }
-  return (
+  return isLoading ? (
+    <li className={styles.news}>
+      <p>Loading...</p>
+    </li>
+  ) : (
     <li className={styles.news} onClick={onStory}>
       <Link className={styles.news__item} to={`/${story.id}`}>
         <p className={styles["news__item-title"]}>{story.title}</p>
         <p className={styles["news__item-info"]}>
-          {`autor: ${story.by} | rating: ${story.score} | date: ${timeCreatedStory}`}
+          {`autor: ${story.by} | rating: ${story.score} | date: ${new Date(
+            story.time * 1000
+          ).toLocaleString("ru")}`}
         </p>
       </Link>
     </li>

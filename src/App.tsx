@@ -11,7 +11,7 @@ import { cleanNews } from "./store/slices/newsSlice";
 
 function App() {
   const dispatch = useAppDispatch();
-  const news = useAppSelector((state) => state.news.newsList);
+  const newsId = useAppSelector((state) => state.news.newsListId);
 
   useEffect(() => {
     dispatch(fetchNews());
@@ -30,7 +30,7 @@ function App() {
       <Header />
       <Switch>
         <Route path="/:id" render={() => <NewsPage />} />
-        <Route path="/" render={() => <NewsList news={news} />} />
+        <Route path="/" render={() => <NewsList newsId={newsId} />} />
       </Switch>
     </div>
   );
